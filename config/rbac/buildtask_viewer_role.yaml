@@ -1,0 +1,29 @@
+# This rule is not used by the project kubuild itself.
+# It is provided to allow the cluster admin to help manage permissions for users.
+#
+# Grants read-only access to kubuild.lingdie.io resources.
+# This role is intended for users who need visibility into these resources
+# without permissions to modify them. It is ideal for monitoring purposes and limited-access viewing.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: kubuild
+    app.kubernetes.io/managed-by: kustomize
+  name: buildtask-viewer-role
+rules:
+- apiGroups:
+  - kubuild.lingdie.io
+  resources:
+  - buildtasks
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kubuild.lingdie.io
+  resources:
+  - buildtasks/status
+  verbs:
+  - get

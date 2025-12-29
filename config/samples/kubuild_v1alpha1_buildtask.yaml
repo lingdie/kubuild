@@ -1,0 +1,37 @@
+apiVersion: kubuild.lingdie.io/v1alpha1
+kind: BuildTask
+metadata:
+  labels:
+    app.kubernetes.io/name: kubuild
+    app.kubernetes.io/managed-by: kustomize
+  name: buildtask-sample
+spec:
+  image: "registry.example.com/demo/hello:dev"
+  output:
+    # push=false means build only (no push).
+    push: false
+    images:
+      - "registry.example.com/demo/hello:dev-2"
+  context:
+    type: Git
+    git:
+      url: "https://github.com/example/repo.git"
+      revision: "main"
+      subPath: "."
+      # secretRef:
+      #   name: git-credentials
+  dockerfile:
+    type: Path
+    path: "Dockerfile"
+  buildArgs:
+    FOO: "bar"
+  serviceAccountName: "kubuild-builder"
+  timeoutSeconds: 1800
+  backoffLimit: 1
+  buildah:
+    rootless: true
+    storageDriver: "overlay"
+  trigger:
+    manual:
+      # Update this value to trigger a new build.
+      nonce: "1"

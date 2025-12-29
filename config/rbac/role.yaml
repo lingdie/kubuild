@@ -1,0 +1,32 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - kubuild.lingdie.io
+  resources:
+  - buildtasks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - kubuild.lingdie.io
+  resources:
+  - buildtasks/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - kubuild.lingdie.io
+  resources:
+  - buildtasks/status
+  verbs:
+  - get
+  - patch
+  - update
